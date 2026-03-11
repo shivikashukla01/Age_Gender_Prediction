@@ -25,8 +25,8 @@ genderList = ['Male', 'Female']
 
 
 video = cv2.VideoCapture(0)
-video.set(3,1280)
-video.set(4,720)
+video.set(2,1280)
+video.set(3,720)
 
 if not video.isOpened():
     print("Camera not detected")
@@ -38,18 +38,14 @@ while True:
 
     if not ret:
         break
-
-    # Convert frame into blob for face detection
+    
     blob = cv2.dnn.blobFromImage(frame, 1.0, (300,300),[104,117,123], True, False)
 
-    # Run face detection
     faceNet.setInput(blob)
     detections = faceNet.forward()
 
-    # Get frame dimensions
     h, w = frame.shape[:2]
 
-    # Loop through detected faces
     for i in range(detections.shape[2]):
 
         confidence = detections[0,0,i,2]
@@ -73,7 +69,6 @@ while True:
             if face.size == 0:
                 continue
 
-            # Ignore very small faces
             if face.shape[0] < 50 or face.shape[1] < 50:
                 continue
 
